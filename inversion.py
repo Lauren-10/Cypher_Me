@@ -44,11 +44,13 @@ def count_inversions_linear_fixed(P):
     size = len(P)
     sum = 0
 
-    for i in range(n):
-        #size decrements as 5,4,3,2,1
-        size = n - i
-        if(P[i] - (i+1) > 0):
-            sum  = sum + (P[i] - i+1)
+    for i in range(n - 1):
+        #target will be 1,2
+        #size will be 2,1
+        target = i + 1
+        size = n - 1
+        if P[i] - target != 0:
+            sum = sum + abs(P[i] - target)
         
         
     return sum
@@ -84,10 +86,27 @@ def count_inversions_linear_accurate(P):
 # Test cases
 test_cases = {
     "list5": ([5, 4, 3, 2, 1], 10),
-    "list8": ([3, 5, 4, 2, 1], 8)
+    "list8": ([3, 5, 4, 2, 1], 8),
+
+    # Length 1
+    "len1_a": ([1], 0),
+    
+    # Length 2
+    "len2_a": ([1, 2], 0),
+    "len2_b": ([2, 1], 1),
+    
+    # Length 3
+    "len3_a": ([1, 2, 3], 0),
+    "len3_b": ([1, 3, 2], 1),
+    "len3_c": ([2, 1, 3], 1),
+    "len3_d": ([2, 3, 1], 2),
+    "len3_e": ([3, 1, 2], 2),
+    "len3_f": ([3, 2, 1], 3),
+    
 }
 
-# Function to test both implementations
+
+
 def run_tests():
     print("Testing optimized inversion counting algorithms:")
     print("---------------------------------------------")

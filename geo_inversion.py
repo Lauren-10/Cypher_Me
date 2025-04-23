@@ -1,3 +1,62 @@
+"""
+def criss_cross_inversion_counting(arr):
+    inverted_sum = 0
+    criss = []
+    cross = []
+    cross_it = 0
+    size = len(arr)
+    target = 0
+    num_to_compare = 0
+    #counts of crisses
+    for i in range(size):
+        target = i + 1
+        if arr[i] >= target:
+            criss.append([arr[i], arr[i] - target])
+    
+    for i in range(size):
+        if arr[i] >= target:
+            cross_it = cross_it + 1
+        else:
+            cross.append([arr[i], abs(arr[i] - target), cross_it])
+            cross_it = cross_it - arr[i] - target
+
+    #pass through to count the crisses 
+    for i in range(0, len(criss)):
+        inverted_sum = inverted_sum + criss[i][1]
+    
+    #pass through to count the crosses
+    for i in range(0, len(cross)):
+        if(cross[i][2] > cross[i][1]):
+            inverted_sum = inverted_sum + (cross[i][1] - cross[i][2])
+
+    return inverted_sum
+"""
+def criss_cross_inversion_counting(arr):
+    maximum = max(arr)
+    minimum = min(arr)
+    size = len(arr)
+    inversion_sum = 0
+    misplaced_count = 0
+    maximum_swaps = (size * (size-1))/2
+    #criss iteration
+    for i in range(size):
+        if arr[i] != minimum:
+            inversion_sum = inversion_sum + (maximum - arr[i]) + i
+        else:
+            minimum += 1
+    #cross iteration
+    
+    for i in range(1, size + 1):
+        if arr[size - i] < (maximum - i + 1):
+            inversion_sum = inversion_sum - abs(arr[size - i] - (maximum - i))
+            misplaced_count = misplaced_count + 1
+    
+    if(inversion_sum != maximum_swaps or inversion_sum != 0):
+        inversion_sum = inversion_sum - misplaced_count
+    
+    return inversion_sum
+
+#test cases
 # Test cases
 test_cases = {
     # Length 1
@@ -64,37 +123,22 @@ test_cases = {
     "len10_d": ([7, 3, 10, 5, 8, 2, 9, 1, 6, 4], 27),
     "len10_e": ([4, 9, 6, 1, 8, 3, 10, 2, 7, 5], 22)
 }
-#test running function
+
+
 def run_tests():
     print("Testing optimized inversion counting algorithms:")
     print("---------------------------------------------")
     for name, (arr, expected) in test_cases.items():
-        fixed_result = count_inversions(arr)
+        fixed_result = criss_cross_inversion_counting(arr)
         
         
         print(f"{name}: {arr}")
         print(f"  Expected: {expected}")
         print(f"  Fixed approach:   {fixed_result} {'✓' if fixed_result == expected else '✗'}")
         print()
+    
 
 
-def count_inversions(arr):
-    # Frequency array to track occurrences
-    n = len(arr)
-    freq = [0] * (n + 1)
-    inversion_count = 0
-
-    # Process from right to left
-    for i in range(n - 1, -1, -1):
-        num = arr[i]
-
-        # Count how many elements smaller than num have appeared
-        inversion_count += sum(freq[:num])  # Fast lookup for small numbers
-
-        # Update frequency count
-        freq[num] += 1
-
-    return inversion_count
-
-
-run_tests()
+run_tests()    
+    
+            
