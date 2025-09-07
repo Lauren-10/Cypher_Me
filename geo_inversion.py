@@ -134,7 +134,7 @@ def run_tests():
         
         print(f"{name}: {arr}")
         print(f"  Expected: {expected}")
-        print(f"  Fixed approach:   {fixed_result} {'✓' if fixed_result == expected else '✗'}")
+        print(f"  Fixed approach:   {fixed_result} {'Passed' if fixed_result == expected else 'Failed'}")
         print()
     
 

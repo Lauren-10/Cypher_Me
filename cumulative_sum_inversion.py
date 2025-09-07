@@ -15,9 +15,8 @@ def right_left_sum_inversion(arr):
     for i in range(size):
         right_sum = right_sum - arr[i]
         left_sum = left_sum + arr[i]
-        if(right_sum > i+1):
-            inversion_count = 
+        
     print(cumulative_arr)
 
 
-print(right_left_sum_inversion([3,5,1,4,2]))
+right_left_sum_inversion([3,5,1,4,2])
